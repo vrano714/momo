@@ -393,7 +393,7 @@ def main():
         platform = Platform("jetson", None, "armv8", extra="ubuntu-22.04")
     elif args.target == "ubuntu-24.04_armv8_kakip":
         platform = Platform("kakip", None, "armv8", extra="ubuntu-24.04")
-    elif args.target == "ubuntu-24.04_armv8_kakip":
+    elif args.target == "debian-bookworm_armv8_rock5":
         platform = Platform("rock5", None, "armv8", extra="debian-bookworm")
     else:
         raise Exception(f"Unknown target {args.target}")
