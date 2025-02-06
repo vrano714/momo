@@ -1659,6 +1659,8 @@ class PlatformTarget(object):
             return f"{self.extra}_{self.arch}_jetson"
         if self.os == "kakip":
             return "ubuntu-24.04_armv8_kakip"
+        if self.os == "rock5":
+            return "debian-bookworm_armv8_rock5"
         raise Exception("error")
 
 
@@ -1765,7 +1767,7 @@ class Platform(object):
     def _check_platform_target(self, p: PlatformTarget):
         if p.os == "raspberry-pi-os":
             self._check(p.arch in ("armv6", "armv7", "armv8"))
-        elif p.os in ["jetson", "kakip":
+        elif p.os in ["jetson", "kakip"]:
             self._check(p.arch == "armv8")
         elif p.os in ("ios", "android"):
             self._check(p.arch is None)
@@ -1831,6 +1833,8 @@ def get_webrtc_platform(platform: Platform) -> str:
         return "ubuntu-20.04_armv8"
     elif platform.target.os == "kakip":
         return "ubuntu-24.04_armv8"
+    elif platform.target.os == "rock5":
+        return "debian-bookworm_armv8"
     else:
         raise Exception(f"Unknown platform {platform.target.os}")
 
