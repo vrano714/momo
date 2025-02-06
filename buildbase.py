@@ -1767,7 +1767,7 @@ class Platform(object):
     def _check_platform_target(self, p: PlatformTarget):
         if p.os == "raspberry-pi-os":
             self._check(p.arch in ("armv6", "armv7", "armv8"))
-        elif p.os in ["jetson", "kakip"]:
+        elif p.os in ["jetson", "kakip", "rock5"]:
             self._check(p.arch == "armv8")
         elif p.os in ("ios", "android"):
             self._check(p.arch is None)
@@ -1808,6 +1808,9 @@ class Platform(object):
             self._check(build.os == "ubuntu")
             self._check(build.arch == "x86_64")
         if target.os == "kakip":
+            self._check(build.os == "ubuntu")
+            self._check(build.arch == "x86_64")
+        if target.os == "rock5":
             self._check(build.os == "ubuntu")
             self._check(build.arch == "x86_64")
 

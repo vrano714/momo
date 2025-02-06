@@ -56,7 +56,7 @@ def install_deps(
         version = read_version_file("VERSION")
 
         # multistrap を使った sysroot の構築
-        if platform.target.os == "jetson" or platform.target.os == "raspberry-pi-os" or platform.target.os == "kakip":
+        if platform.target.os == "jetson" or platform.target.os == "raspberry-pi-os" or platform.target.os == "kakip" or platform.target.os == "rock5":
             conf = os.path.join(BASE_DIR, "multistrap", f"{platform.target.package_name}.conf")
             # conf ファイルのハッシュ値をバージョンとする
             version_md5 = hashlib.md5(open(conf, "rb").read()).hexdigest()
@@ -169,7 +169,7 @@ def install_deps(
                 install_boost_args["cflags"].extend(["-target", "aarch64-apple-darwin"])
                 install_boost_args["cxxflags"].extend(["-target", "aarch64-apple-darwin"])
                 install_boost_args["architecture"] = "arm"
-        elif platform.target.os in ("jetson", "raspberry-pi-os", "kakip"):
+        elif platform.target.os in ("jetson", "raspberry-pi-os", "kakip", "rock5"):
             triplet = "aarch64-linux-gnu"
             sysroot = os.path.join(install_dir, "rootfs")
             install_boost_args["target_os"] = "linux"
@@ -311,7 +311,7 @@ def install_deps(
             install_sdl2_args["platform"] = "macos"
         elif platform.target.os == "ubuntu":
             install_sdl2_args["platform"] = "linux"
-        elif platform.target.os in ("jetson", "raspberry-pi-os", "kakip"):
+        elif platform.target.os in ("jetson", "raspberry-pi-os", "kakip", "rock5"):
             install_sdl2_args["platform"] = "linux"
             triplet = "aarch64-linux-gnu"
             arch = "aarch64"
@@ -363,6 +363,7 @@ AVAILABLE_TARGETS = [
     "raspberry-pi-os_armv8",
     "ubuntu-22.04_armv8_jetson",
     "ubuntu-24.04_armv8_kakip",
+    "debian-bookworm_armv8_rock5",
 ]
 WINDOWS_SDK_VERSION = "10.0.20348.0"
 
@@ -392,6 +393,8 @@ def main():
         platform = Platform("jetson", None, "armv8", extra="ubuntu-22.04")
     elif args.target == "ubuntu-24.04_armv8_kakip":
         platform = Platform("kakip", None, "armv8", extra="ubuntu-24.04")
+    elif args.target == "ubuntu-24.04_armv8_kakip":
+        platform = Platform("rock5", None, "armv8", extra="debian-bookworm")
     else:
         raise Exception(f"Unknown target {args.target}")
 
@@ -482,7 +485,7 @@ def main():
             cmake_args.append(f"-DCMAKE_CXX_COMPILER_TARGET={target}")
             cmake_args.append(f"-DCMAKE_OBJCXX_COMPILER_TARGET={target}")
             cmake_args.append(f"-DCMAKE_SYSROOT={sysroot}")
-        if platform.target.os in ("jetson", "raspberry-pi-os", "kakip"):
+        if platform.target.os in ("jetson", "raspberry-pi-os", "kakip", "rock5"):
             triplet = "aarch64-linux-gnu"
             arch = "aarch64"
             sysroot = os.path.join(install_dir, "rootfs")
