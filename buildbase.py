@@ -1657,6 +1657,8 @@ class PlatformTarget(object):
             if self.extra is None:
                 return f"ubuntu-20.04_{self.arch}_jetson"
             return f"{self.extra}_{self.arch}_jetson"
+        if self.os == "kakip":
+            return "ubuntu-24.04_armv8_kakip"
         raise Exception("error")
 
 
@@ -1763,7 +1765,7 @@ class Platform(object):
     def _check_platform_target(self, p: PlatformTarget):
         if p.os == "raspberry-pi-os":
             self._check(p.arch in ("armv6", "armv7", "armv8"))
-        elif p.os == "jetson":
+        elif p.os in ["jetson", "kakip":
             self._check(p.arch == "armv8")
         elif p.os in ("ios", "android"):
             self._check(p.arch is None)
@@ -1803,6 +1805,9 @@ class Platform(object):
         if target.os == "jetson":
             self._check(build.os == "ubuntu")
             self._check(build.arch == "x86_64")
+        if target.os == "kakip":
+            self._check(build.os == "ubuntu")
+            self._check(build.arch == "x86_64")
 
         self.build = build
         self.target = target
@@ -1824,6 +1829,8 @@ def get_webrtc_platform(platform: Platform) -> str:
         return f"raspberry-pi-os_{platform.target.arch}"
     elif platform.target.os == "jetson":
         return "ubuntu-20.04_armv8"
+    elif platform.target.os == "kakip":
+        return "ubuntu-24.04_armv8"
     else:
         raise Exception(f"Unknown platform {platform.target.os}")
 

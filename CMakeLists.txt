@@ -63,6 +63,11 @@ elseif(MOMO_TARGET STREQUAL "ubuntu-22.04_armv8_jetson")
   set(TARGET_OS_LINUX "ubuntu-22.04")
   set(TARGET_ARCH "arm")
   set(TARGET_ARCH_ARM "armv8")
+  elseif(MOMO_TARGET STREQUAL "ubuntu-24.04_armv8_kakip")
+  set(TARGET_OS "linux")
+  set(TARGET_OS_LINUX "ubuntu-24.04")
+  set(TARGET_ARCH "arm")
+  set(TARGET_ARCH_ARM "armv8")
 endif()
 
 # ubuntu-22.04_armv8_jetson 対応時に追加
